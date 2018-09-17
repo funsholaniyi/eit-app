@@ -1,5 +1,5 @@
 {
-  "name": "eit-app",
+  "name": "EIT-APP",
   "private": true,
   "scripts": {
     "start": "meteor run",
@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
+    "bcrypt": "^3.0.0",
     "meteor-node-stubs": "^0.4.1"
   },
   "meteor": {

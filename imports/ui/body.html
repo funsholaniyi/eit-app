@@ -1,0 +1,59 @@
+<body>
+<h1>EIT Tracking App</h1>
+
+{{> loginButtons}}
+<div class='container'>
+    <div class="row">
+        {{#if currentUser}}
+            <form id="data-capture" class="form">
+                <div class="form-group">
+                    <label>Firstname</label>
+                    <input type="text" name="firstname" class='form-control'>
+                </div>
+                <div class="form-group">
+                    <label>Lastname</label>
+                    <input type="text" name="lastname" class='form-control'>
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <input type="radio" name="gender" value="Female">female
+                    <input type="radio" name="gender" value="Male">Male
+                </div>
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="date" name="DateofBirth" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+        {{/if}}
+
+
+        <table class='table table-bordered'>
+            <tr class='header1'>
+                <th></th>
+                <th> First name</th>
+                <th> Last name</th>
+                <th> Gender</th>
+                <th> Date of Birth</th>
+            </tr>
+            {{#each students}}
+                {{> eitList}}
+            {{/each}}
+        </table>
+
+        {{#if currentUser}}
+            <button class="btn btn-sm btn-danger" id='delete-eit'>Delete</button>
+        {{/if}}
+    </div>
+</div>
+</body>
+
+<template name='eitList'>
+    <tr>
+        <td><input type="checkbox" name="delete" class="checkedValue"></td>
+        <td>{{firstname}}</td>
+        <td>{{lastname}}</td>
+        <td>{{gender}}</td>
+        <td>{{dob}}</td>
+    </tr>
+</template>
