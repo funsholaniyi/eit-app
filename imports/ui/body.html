@@ -1,59 +1,79 @@
 <body>
-<h1>EIT Tracking App</h1>
 
 {{> loginButtons}}
-<div class='container'>
-    <div class="row">
+<h1>EIT Management App</h1>
+{{#if currentUser}}
+    <form class="form" id="form">
+        <div class="form-group">
+            <label>First Name</label>
+            <input type="text" name="firstname" class='form-control' placeholder="Enter First Name">
+        </div>
+        <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" name="lastname" class='form-control' placeholder="Enter Last Name">
+        </div>
+        <div class="form-group">
+            <label>Gender</label>
+            <br>
+            <label for="female"><input type="radio" name="gender" value="Female" checked id="female">
+                Female</label>
+            <label for="male"><input type="radio" name="gender" value="Male" id="male"> Male</label>
+        </div>
+        <div class="form-group">
+            <label>Date of Birth</label>
+            <input type="date" name="dob" class="form-control">
+        </div>
+        <input type="hidden" name="eit_id">
+        <button type="submit" class="btn btn-brand-outline btn-custom pull-right">SUBMIT</button>
+    </form>
+{{/if}}
+
+<h1 class="text-center">EITs List</h1>
+<hr>
+<br>
+{{#if currentUser}}
+    <button class="btn btn-sm btn-danger pull-right bulk-delete">Delete Selected EITs</button>
+{{/if}}
+<table class="table table-striped table-responsive" id="table">
+    <thead>
+    <tr>
         {{#if currentUser}}
-            <form id="data-capture" class="form">
-                <div class="form-group">
-                    <label>Firstname</label>
-                    <input type="text" name="firstname" class='form-control'>
-                </div>
-                <div class="form-group">
-                    <label>Lastname</label>
-                    <input type="text" name="lastname" class='form-control'>
-                </div>
-                <div class="form-group">
-                    <label>Gender</label>
-                    <input type="radio" name="gender" value="Female">female
-                    <input type="radio" name="gender" value="Male">Male
-                </div>
-                <div class="form-group">
-                    <label>Date of Birth</label>
-                    <input type="date" name="DateofBirth" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-            </form>
+            <th>#</th>
         {{/if}}
 
-
-        <table class='table table-bordered'>
-            <tr class='header1'>
-                <th></th>
-                <th> First name</th>
-                <th> Last name</th>
-                <th> Gender</th>
-                <th> Date of Birth</th>
-            </tr>
-            {{#each students}}
-                {{> eitList}}
-            {{/each}}
-        </table>
-
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Gender</th>
+        <th>Date of Birth</th>
         {{#if currentUser}}
-            <button class="btn btn-sm btn-danger" id='delete-eit'>Delete</button>
+            <th>Action</th>
         {{/if}}
-    </div>
-</div>
+
+    </tr>
+    </thead>
+    <tbody>
+    {{#each eits}}
+        {{> eitList}}
+    {{/each}}
+    </tbody>
+</table>
+
 </body>
-
 <template name='eitList'>
     <tr>
-        <td><input type="checkbox" name="delete" class="checkedValue"></td>
+        {{#if currentUser}}
+            <th scope="row"><input type="checkbox" name="delete" class="checkbox"></th>
+        {{/if}}
         <td>{{firstname}}</td>
         <td>{{lastname}}</td>
         <td>{{gender}}</td>
         <td>{{dob}}</td>
+        {{#if currentUser}}
+            <td>
+                <button class="btn btn-sm btn-warning single-edit">Edit</button>
+                <button class="btn btn-sm btn-danger single-delete">Delete</button>
+            </td>
+        {{/if}}
+
     </tr>
 </template>
