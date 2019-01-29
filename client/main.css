@@ -1,0 +1,101 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    margin: 0;
+    font-size: 14px;
+    overflow-x: hidden;
+    font-family: 'Droid Sans', sans-serif;
+    background-color: #ffffff;
+}
+
+h1, h2, h3, h4, h5, h6, button {
+    font-family: 'Quicksand', 'Droid Sans', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+button, input {
+    outline: none;
+}
+
+.navbar-inverse {
+    background-color: #404040;
+}
+
+.login-buttons-dropdown-align- {
+    float: right;
+    padding: 15px 0 10px 0;
+    margin-top: 10px;
+}
+
+#login-buttons a, .accounts-dialog a {
+    font-size: 18px;
+    text-decoration: none;
+    text-transform: capitalize;
+    color: #ffffff;
+}
+
+#login-buttons .login-close-text {
+    color: #ee4c7c;
+}
+#login-buttons a, .accounts-dialog a{
+    color: #9d9d9d;
+    font-size: 14px;
+}
+
+.btn-custom {
+    border-radius: 0;
+}
+
+#login-buttons .login-button, .accounts-dialog .login-button {
+    background-color: #ffffff;
+    color: #ee4c7c;
+    border: 2px solid #ee4c7c;
+    border-radius: 0;
+
+}
+
+#login-buttons{
+    margin-right: 200px;
+}
+#login-buttons .login-button:active, .accounts-dialog .login-button:active {
+    background-color: #ee4c7c;
+    color: #ffffff;
+}
+
+#login-buttons .login-button:hover, .accounts-dialog .login-button:hover {
+    background-color: #ee4c7c;
+    color: #ffffff;
+}
+
+.btn-brand {
+    background-color: #ee4c7c;
+    color: #ffffff;
+}
+
+.btn-brand-outline {
+    background-color: #ffffff;
+    color: #ee4c7c;
+    border: 2px solid #ee4c7c;
+}
+
+.student-form {
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #ee4c7c;
+
+}
+
+.form-control {
+    padding: 20px 10px;
+    border-radius: 0px;
+}
+
+.logo {
+    font-family: Comfortaa;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 30px;
+    margin-top: 10px;
+}

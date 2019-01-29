@@ -1,23 +1,14 @@
 import {Template} from "meteor/templating";
-import {ReactiveDict} from "meteor/reactive-dict";
 
 import "./body.html";
-import {studentConn} from "../api/student.js";
+import {Students} from "../api/students.js";
 
-let deleteEits = [];
-
-Template.body.onCreated(function bodyOnCreated() {
-    this.state = new ReactiveDict();
-    this.state.set('theArray', []);
-});
-
+var deleteEits = [];
+var createMode = true;
 
 Template.body.helpers({
-    DOBs: function () {
-        return this.dob.toDateString()
-    },
     students: function () {
-        return studentConn.find({}, {
+        return Students.find({}, {
             sort: {
                 createdAt: -1
             }
@@ -26,41 +17,63 @@ Template.body.helpers({
 });
 
 Template.eitList.helpers({
-    DOBs: function () {
-        return this.dob.toDateString()
-    }
+    dob: function () {
+        return this.dob.toDateString();
+    },
 });
 
 Template.body.events({
-    'submit #data-capture'(event) {
+    'submit .form'(event) {
         event.preventDefault();
         const target = event.target;
         var firstname = target.firstname.value;
         var lastname = target.lastname.value;
         var gender = target.gender.value;
-        var dob = target.DateofBirth.value.split("-");
-        var DateofBirth = new Date(Number(dob[0]), Number(dob[1]) - 1, Number(dob[2]));
+        var dob = target.dob.value.split("-");
+        var dob = new Date(Number(dob[0]), Number(dob[1]) - 1, Number(dob[2]));
+        var student_id = target.student_id.value;
 
-        Meteor.call('eits.insert', firstname, lastname, gender, DateofBirth)
+        if (!createMode && student_id) {
+            Meteor.call('student.update', student_id, firstname, lastname, gender, dob);
+            createMode = true;
+        } else {
+            Meteor.call('student.insert', firstname, lastname, gender, dob);
+        }
+        target.reset();
+
+        var table = document.getElementById("table");
+        table.scrollIntoView();
     },
-    'change .checkedValue'(event, instance) {
-        // var getAll = instance.state.get('theArray')
-        if (event.target.checked) {
-            // getAll.push(this._id)
-            // instance.state.set('theArray',getAll)
+    'click .single-edit'() {
+        var id = this._id;
+        var theStudent = Students.find({_id: id}).fetch()[0];
 
+        var target = document.getElementById('form');
+        target.firstname.value = theStudent.firstname;
+        target.lastname.value = theStudent.lastname;
+        target.gender.value = theStudent.gender;
+        target.dob.value = theStudent.dob.toISOString().substring(0, 10);
+
+        target.student_id.value = id;
+
+        var form = document.getElementById('jumbotron');
+        form.scrollIntoView();
+        createMode = false;
+    },
+    'click .single-delete'() {
+        Meteor.call('student.delete', this._id)
+    },
+    'change .checkbox'(event) {
+        if (event.target.checked) {
             deleteEits.push(this._id);
         } else {
-            deleteEits.splice(deleteEits.indexOf(this._id), 1)
-            // instance.state.set('theArray', getAll)
+            deleteEits.splice(deleteEits.indexOf(this._id), 1);
         }
+        console.log(deleteEits);
     },
-    'click #delete-eit'(event, instance) {
-        // console.log('i think');
-        // var getAll = instance.state.get('theArray')
-        // console.log(student);
+    'click .bulk-delete'() {
         deleteEits.forEach(function (id) {
-            Meteor.call('eits.delete', id)
-        })
+            Meteor.call('student.delete', id)
+        });
     }
 });
